@@ -132,14 +132,13 @@
         <div class="date">
             {{ comment.created_date }}
             {% if not comment.approved_comment %}
-                
                 <a href="{% url 'comment_approve' pk=comment.pk %}">승인</a>
+                <a href="{% url 'comment_remove' pk=comment.pk %}">제거</a>
             {% endif %}
         </div>
         <div style="border:black 1px solid ; width:500px;">
         <strong>{{ comment.author }}</strong>
         {{ comment.text|linebreaks }}
-        <a href="{% url 'comment_remove' pk=comment.pk %}">제거</a>
         </div>
         
     </div>
