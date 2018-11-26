@@ -8,12 +8,12 @@ def post_about(req):
     return render(req, 'about.html',{})
 
 def post_home(req):
-    return render(req, 'home\home.html',{})
+    return render(req, 'home/home.html',{})
 
 def post(req, pk):
     comments = Comment.objects.all().filter(postId=pk)
     print(comments)
-    return render(req, 'post\post'+pk+'.html', {'pk':pk,'comments':comments})
+    return render(req, 'post/post'+pk+'.html', {'pk':pk,'comments':comments})
 
 def add_comment_to_post(req, pk):
     '''
