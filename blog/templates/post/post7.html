@@ -2,25 +2,8 @@
 {% load static %}
 {% block block1 %}
 
-<div class="container">
-    <!-- Page Heading -->
-    <h1 class="my-4">
-      <small>내가 쓴 시</small>
-    </h1>
-    <br>
-    <div style="text-align: center">
-        <strong>너와 함께한 일주일</strong><br><br>
-        Youtube 17시간 <br>
-        Safari 4시간  <br>
-        네이버 웹툰 2시간 40분 <br>
-        카카오톡 30분  <br>
-        멜론 30분 <br>
-        설정 11분 <br>
-        네이버 지도 10분<br>
-        카카오 버스 5분<br>
-    </div>
-</div>
-    
+일곱 번째 페이지
+
 <a href="{% url 'add_comment_to_post' pk=pk %}">Add comment</a>
     
 {% for comment in comments %}
