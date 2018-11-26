@@ -60,7 +60,7 @@
 </div>
 
 <a href="{% url 'add_comment_to_post' pk=pk %}">Add comment</a>
-    
+<br> 저의 승인 없이는 댓글이 달리지 않습니다.
 {% for comment in comments %}
 
     {% if comment.approved_comment or user.is_authenticated %}
