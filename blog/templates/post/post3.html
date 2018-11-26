@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block block1 %}
+
+<div style="text-align: center;">
+    <canvas id="panel" width="500px" height="500px" style="margin-top:1%;"></canvas>
+    <script>
+        const canvas = document.getElementById('panel');
+        const context = canvas.getContext('2d');
+
+        // const arr = []; //리터럴
+        // const arr = new Array();
+
+        // const obj = {};
+        // const obj = new Object();
+        function GameObject(src,width,height){
+            this.x = 250;
+            this.y = 400;
+            this.image = new Image();
+            this.image.src = src;
+            this.width  = width;
+            this.height = height;
+
+            this.alpha = 1;
+            
+            this.isObstacle = false;
+            this.isbeer = false;
+        }
+        const player = new GameObject("{% static 'post3/Gill2.png' %}",50,50);
+        const objectArray = [];
+
+        objectArray.push(player);
+
+
+
+
+        //1초마다 한 번씩 1000
+            setInterval(function(){ 
+                const newObstacle1 = new GameObject("{% static 'post3/pint.png' %}",60,60);
+                const newObstacle2 = new GameObject("{% static 'post3/poo.png' %}",60,60);
+                objectArray.push(newObstacle1);
+                newObstacle1.isObstacle = true; 
+                newObstacle1.isbeer = false;
+                newObstacle1.dir = Math.floor(Math.random()*4 +1);
+                if(newObstacle1.dir == 1){
+                    newObstacle1.x = Math.random()*440;
+                    newObstacle1.y = -newObstacle1.height;
+                }
+                else if(newObstacle1.dir == 2){
+                    newObstacle1.y = Math.random()*440;
+                    newObstacle1.x = -newObstacle1.width;
+                }
+                else if(newObstacle1.dir == 3){
+                    newObstacle1.x = Math.random()*440;
+                    newObstacle1.y = 400+newObstacle1.height;
+                }
+                else if(newObstacle1.dir == 4){
+                    newObstacle1.y = Math.random()*440;
+                    newObstacle1.x = 400+ newObstacle1.height   ;
+                }
+                objectArray.push(newObstacle2);
+                newObstacle2.isObstacle = true; 
+                newObstacle1.isbeer = true;
+
+                newObstacle1.x = Math.random() *440;
+                newObstacle1.y = -newObstacle1.height;
+
+                newObstacle2.y =  Math.random() *440;
+                newObstacle2.x = -newObstacle2.width;
+            },1000);
+            
+        let point = 0;
+        let beerPoint = 0;
+
+
+        setInterval(function(){
+            let score = document.getElementById('score');
+            if(!gameover){
+                score.innerHTML = "your Score : " + point;
+                point++;
+            }
+        },500);
+        const downkeys = {};
+        window.addEventListener('keydown',onkeyDown);
+        window.addEventListener('keyup',onkeyup);
+
+        function onkeyDown(event){
+            downkeys[event.code] = true;
+        }
+        function onkeyup(event){
+            downkeys[event.code] = false;
+        }
+        window.requestAnimationFrame(run);
+
+        let gameover = false;
+        let gameoverImg = new Image();
+        gameoverImg.src="{% static 'post3/game-over.png' %}";
+        function run(){
+            let image = new Image();
+            image.onload = function(){
+                context.drawImage(image,0,0,canvas.width,canvas.height);
+            }
+            image.src="{% static 'post3/bg.jpg' %}";
+            if(gameover) {
+                image.onload = function(){
+                    context.drawImage(gameoverImg,canvas.width/2-100,canvas.height/2-100,200,200);
+                    context.fillStyle="rgba(255,255,255,0.5)";
+                    context.fillRect(0,0,canvas.width,canvas.height);
+                }
+                return;
+            }
+            /*context.fillStyle='black';
+            context.fillRect(0,0,canvas.width,canvas.height);*/
+                for (let obj of objectArray){
+                    // for (let otherObj of objectArray){
+                    //     if(obj === otherObj)
+                    //         continue;
+                    //     if(checkCollision(obj, otherObj)){
+                    //         obj.alpha = otherObj.alpha = 0.5;  
+                    //     }
+                    // }
+                    context.globalAlpha = obj.alpha;
+                    context.drawImage(obj.image,obj.x,obj.y,obj.width,obj.height);
+                    if(obj === player) continue;
+                    if(obj.isObstacle){
+                        if(obj.isbeer){
+                            obj.y +=5;
+                        }
+                        else{
+                            obj.x +=5;
+                        }
+                    }
+                    if(obj.isbeer){
+                        if(checkCollision(player,obj)){
+                            beerPoint++;
+                            remove(objectArray,obj);
+                            let beer = document.getElementById('beerPoint');
+                            beer.innerHTML = 'beer Point : ' + beerPoint;
+                        }
+                    }
+                    else{
+                        if(checkCollision(player, obj)){
+                            gameover = true;
+                            console.log('gameover');
+                        }
+                    }
+                }
+                
+
+                if(downkeys['ArrowLeft'])
+                    player.x -=10;
+                else if(downkeys['ArrowRight'])
+                    player.x +=10;
+                if(downkeys['ArrowUp'])
+                    player.y -=10;
+                else if(downkeys['ArrowDown'])
+                    player.y +=10;
+
+                if(player.x>=450){
+                    player.x-=10;   
+                }
+                if(player.y>=450){
+                    player.y-=10;
+                }
+                if(player.x<0){
+                    player.x+=10;
+                }
+                if(player.y<0){
+                    player.y+=10;
+                }
+
+            window.requestAnimationFrame(run);
+        }
+
+        function checkCollision(obj1,obj2){
+            //충돌체크 짜기
+            //obj1과 obj2가 충돌했으면 true, 아니면 false 반환 
+            // if(obj1.x>=obj2.x && obj1.x<=obj2.x + obj2.width 
+            //     && obj1.y>=obj2.y && obj1.y<=obj2.y+obj2.height){
+            //     return true;
+            // }
+            return !(obj1.x > obj2.x+obj2.width || obj1.x + obj1.width < obj2.x ||
+                obj1.y > obj2.y + obj2.height || obj1.y + obj1.height < obj2.y
+            );
+        }
+
+        function remove(array, element){
+            const index = array.indexOf(element);
+            array.splice(index,1);
+        }
+    </script>
+    
+    <div id = "score"></div>
+    <div id="beerPoint" style="font-size:30px;">beer Point : 0</div>
+    <div style="font-size:30px;">맥주는 먹고 똥은 피하세요</div>
+</div>
+
+<a href="{% url 'add_comment_to_post' pk=pk %}">Add comment</a>
+    
+{% for comment in comments %}
+
+    {% if comment.approved_comment or user.is_authenticated %}
+
+    <div class="comment">
+        <div class="date">
+            {{ comment.created_date }}
+            {% if not comment.approved_comment %}
+                
+                <a href="{% url 'comment_approve' pk=comment.pk %}">승인</a>
+            {% endif %}
+        </div>
+        <div style="border:black 1px solid ; width:500px;">
+        <strong>{{ comment.author }}</strong>
+        {{ comment.text|linebreaks }}
+        <a href="{% url 'comment_remove' pk=comment.pk %}">제거</a>
+        </div>
+        
+    </div>
+    {% endif %}
+    {% empty %}
+        <p>No comments here yet :(</p>
+{% endfor %}
+    
+{% endblock %}

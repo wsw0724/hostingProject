@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block block1 %}
+<script>
+    let time = 0;
+    let m,s,ms;
+    let isStart = false;
+    function noDouble(){
+        if(isStart == false){
+            isStart = true;
+            stopwatch();
+        }
+    }
+    function stopwatch(){
+        console.log('start');
+        let clock = setInterval(function() {
+            console.log('start');
+            time++;
+            m = Math.floor(time/600);
+            s = Math.floor(time/10);
+            ms = time % 100;
+
+            if(m < 10) {
+                m = "0" + m;
+            }
+            if(s >= 60) {
+                s -= m*60;
+            }
+            if(s < 10) {
+                s = "0" + s;
+            }
+            if(ms < 10) {
+                ms = "0" + ms;
+            }
+            document.getElementById('time').innerHTML = m + ":" + s + ":" + ms;
+        }, 100);
+        let isStop = document.getElementById('isStop');
+        let tf = false;
+        isStop.onclick = function(){
+            if(tf && isStart){
+                isStop.value = '중지';
+                stopwatch();
+            }
+            else{
+                clearInterval(clock);
+                isStop.value = '재개';
+                tf = !tf;
+            }
+        };
+        document.getElementById('isReset').onclick = function(){
+            clearInterval(clock), time = 0;
+            isStop.value = '중지';
+            isStart = false;
+            document.getElementById('time').innerHTML = '00' + ":" + '00' + ":" + '00';
+        };
+    }
+    function timeCheck(){
+        let clock = new Date();
+        let m,s,ms;
+        let time = document.getElementById('time');
+        let stopWatch = setInterval(function(){
+            let time = new Date();
+            m = clock.getMinutes() - time.getMinutes();
+            s = clock.getSeconds() - time.getSeconds();
+            ms = clock.getMilliseconds() - time.getMilliseconds();
+            if(m < 10) {
+                m = "0" + m;
+            }
+            if(s < 10) {
+                s = "0" + s;
+            }
+            if(ms < 10) {
+                ms = "0" + ms;
+            }
+            time.innerHtml = m+s+ms;
+        },1000);
+        document.getElementById('isStop').onclick = function(){clearInterval(stopWatch)};
+        document.getElementById('isReset').onclick = function(){
+            clearInterval(stopWatch), time = 0;
+            document.getElementById('time').innerHTML = '00' + ":" + '00' + ":" + '00';
+        };
+    }
+</script>
+<style>
+    .clock{
+        text-align:center;
+        border:solid 1px black;
+        width:600px;height: 250px;
+        margin: 0 auto;
+
+    }
+    .clock #time{
+        color:gray;
+        font-size:100px;
+        line-height:200px;
+        text-align:center;
+    }
+
+</style>
+
+
+
+<!-- Page Content -->
+<!-- Page Heading -->
+<h1 class="my-4">
+  <small>setInterval과 clearInterval를 이용한 스톱워치</small>
+</h1>
+<div class="row">
+    <div class="clock">
+    <div id="time">00:00:00</div>
+    <button onclick="noDouble()">시작</button>
+    <input type="button" value = "중지" id="isStop">
+    <button id="isReset">리셋</button>
+</div>
+</div>
+<br>
+<div style="text-align: center">setInterval과 clearInterval를 이용하여 스톱워치를 만들었습니다. <br>
+    시작 버튼을 누르면 시작이 됩니다.  <br>
+    중지 버튼을 누르면 그 버튼은 재개 버튼으로 바뀌도록 했습니다.  <br>
+    리셋을 누르면 말 그래로 리셋되도록 했습니다. <br>
+    시작 버튼을 여러번 누르면 계속 빨라지는 현상과 중지와 재개 버튼이 엇갈릴 때가 있으므로  <br>
+    버튼을 한 번만 눌러지게 처리하였습니다. <br>
+    </div>
+<!-- /.container -->
+<a href="{% url 'add_comment_to_post' pk=pk %}">Add comment</a>
+    
+{% for comment in comments %}
+
+    {% if comment.approved_comment or user.is_authenticated %}
+
+    <div class="comment">
+        <div class="date">
+            {{ comment.created_date }}
+            {% if not comment.approved_comment %}
+                
+                <a href="{% url 'comment_approve' pk=comment.pk %}">승인</a>
+            {% endif %}
+        </div>
+        <div style="border:black 1px solid ; width:500px;">
+        <strong>{{ comment.author }}</strong>
+        {{ comment.text|linebreaks }}
+        <a href="{% url 'comment_remove' pk=comment.pk %}">제거</a>
+        </div>
+        
+    </div>
+    {% endif %}
+    {% empty %}
+        <p>No comments here yet :(</p>
+{% endfor %}
+    
+{% endblock %}

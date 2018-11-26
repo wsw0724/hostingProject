@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block block1 %}
+<style>
+  /*
+  img{
+    height:200px;
+  }
+  */
+</style>
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">나의 포트폴리오
+        <!--<small></small>-->
+      </h1>
+
+      <div class="row">
+
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="post1"><img class="card-img-top" src="{% static 'thumbnail/stopwatch.PNG' %}" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="post1">스톱워치</a>
+              </h4>
+              <p class="card-text">setInterval과 clearInterval를 이용한 스톱워치</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="post2"><img class="card-img-top" src="{% static 'thumbnail/hanClock.PNG' %}" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="post2">한글시계</a>
+              </h4>
+              <p class="card-text">자바 스크립트로 만든 한글시계</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="post3"><img class="card-img-top" src="{% static 'thumbnail/game.PNG' %}" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="post3">똥 피하기 게임</a>
+              </h4>
+              <p class="card-text">1학년 소수전공에서 만든 똥 피하기 게임</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="post4"><img class="card-img-top" src="{% static 'thumbnail/webDesign.PNG' %}" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="post4">웹디자인</a>
+              </h4>
+              <p class="card-text">1학년 웹디자인 시간에 만든 것들</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="post5"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="post5">Project Five</a>
+              </h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+          <div class="card h-100">
+            <a href="post6"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+            <div class="card-body">
+              <h4 class="card-title">
+                <a href="post6">Project Six</a>
+              </h4>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque earum nostrum suscipit ducimus nihil provident, perferendis rem illo, voluptate atque, sit eius in voluptates, nemo repellat fugiat excepturi! Nemo, esse.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+              <a href="post7"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="post7">Project Seven</a>
+                </h4>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque earum nostrum suscipit ducimus nihil provident, perferendis rem illo, voluptate atque, sit eius in voluptates, nemo repellat fugiat excepturi! Nemo, esse.</p>
+              </div>
+            </div>
+          </div>
+      </div>
+      <a href="post404">백일장 시</a>
+      <!-- /.row -->
+
+      <!-- Pagination -->
+      <!--
+      <ul class="pagination justify-content-center">
+        
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        
+        <li class="page-item">
+          <a class="page-link" href="1">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="2">2</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="3">3</a>
+        </li>
+        
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+        
+      </ul>
+      -->
+    </div>
+    
+    <!-- /.container -->
+
+{% endblock %}

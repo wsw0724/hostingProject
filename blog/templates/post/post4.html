@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block block1 %}
+
+<!-- Page Heading -->
+<h1 class="my-4">
+    <small>내가 웹디자인 시간에 만든 것들</small>
+</h1>
+<br>
+<div style="text-align: center">
+    <table>
+        <tr>
+            <td><img src="{% static 'post4/bang.png' %}" alt=""></td>
+            <td><img src="{% static 'post4/letterDesign.png' %}" alt=""></td>
+        </tr>
+        <tr>
+            <td><img src="{% static 'post4/icon.png' %}" alt=""></td>
+            <td><img src="{% static 'post4/brushDrawing.png' %}" alt=""></td>
+        </tr>
+        <tr>
+            <td><img src="{% static 'post4/shark.png' %}" alt=""></td>
+        </tr>
+    </table>
+</div>
+    
+<a href="{% url 'add_comment_to_post' pk=pk %}">Add comment</a>
+    
+{% for comment in comments %}
+
+    {% if comment.approved_comment or user.is_authenticated %}
+
+    <div class="comment">
+        <div class="date">
+            {{ comment.created_date }}
+            {% if not comment.approved_comment %}
+                
+                <a href="{% url 'comment_approve' pk=comment.pk %}">승인</a>
+            {% endif %}
+        </div>
+        <div style="border:black 1px solid ; width:500px;">
+        <strong>{{ comment.author }}</strong>
+        {{ comment.text|linebreaks }}
+        <a href="{% url 'comment_remove' pk=comment.pk %}">제거</a>
+        </div>
+        
+    </div>
+    {% endif %}
+    {% empty %}
+        <p>No comments here yet :(</p>
+{% endfor %}
+    
+{% endblock %}

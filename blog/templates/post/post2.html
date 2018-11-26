@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block block1 %}
+<script src="{% static 'post2/hanClock.js' %}"></script>
+    <style>
+        .hanBody {
+            width:50%;
+            background-color: hotpink;
+            margin:0 auto;
+            margin-top:4%;
+        }
+        table {
+            margin:0 auto;
+            font-size: 50px;
+            color: white;
+        }
+    </style>
+<div class="hanBody" onload='HanClock()'>
+    <script>
+        setInterval(HanClock, 1000);
+    </script>
+    <table>
+        <table>
+            <tr>
+                <td id="c1"></td>
+                <td id="c2"></td>
+                <td id="c3"></td>
+                <td id="c4"></td>
+                <td id="c5"></td>
+            </tr>
+            <tr>
+                <td id="c6"></td>
+                <td id="c7"></td>
+                <td id="c8"></td>
+                <td id="c9"></td>
+                <td id="c10"></td>
+            </tr>
+            <tr>
+                <td id="c11"></td>
+                <td id="c12"></td>
+                <td id="c13"></td>
+                <td id="c14"></td>
+                <td id="c15"></td>
+            </tr>
+            <tr>
+                <td id="c16"></td>
+                <td id="c17"></td>
+                <td id="c18"></td>
+                <td id="c19"></td>
+                <td id="c20"></td>
+            </tr>
+            <tr>
+                <td id="c21"></td>
+                <td id="c22"></td>
+                <td id="c23"></td>
+                <td id="c24"></td>
+                <td id="c25"></td>
+            </tr>
+        </table>  
+</div>
+
+<a href="{% url 'add_comment_to_post' pk=pk %}">Add comment</a>
+    
+{% for comment in comments %}
+
+    {% if comment.approved_comment or user.is_authenticated %}
+
+    <div class="comment">
+        <div class="date">
+            {{ comment.created_date }}
+            {% if not comment.approved_comment %}
+                
+                <a href="{% url 'comment_approve' pk=comment.pk %}">승인</a>
+            {% endif %}
+        </div>
+        <div style="border:black 1px solid ; width:500px;">
+        <strong>{{ comment.author }}</strong>
+        {{ comment.text|linebreaks }}
+        <a href="{% url 'comment_remove' pk=comment.pk %}">제거</a>
+        </div>
+        
+    </div>
+    {% endif %}
+    {% empty %}
+        <p>No comments here yet :(</p>
+{% endfor %}
+    
+{% endblock %}
